@@ -11,7 +11,6 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Vector3
 
 import time
-from std_msgs.msg import Int8
 from std_msgs.msg import UInt16
 from sensor_msgs.msg import Joy
 
@@ -75,29 +74,17 @@ def joy_handler(ps):
 def send_commands(ps):
   if (Flag1):
   	pubjoy01.publish(ps)
-  	pubon01.publish(1)
-  	pubon02.publish(0)
-  	pubon03.publish(0)
   	print "Publishing to 1"
   elif Flag2:
   	pubjoy02.publish(ps)
-  	pubon01.publish(0)
-  	pubon02.publish(1)
-  	pubon03.publish(0)
   	print "Publishing to 2"
   elif (Flag3):
   	pubjoy03.publish(ps)
-  	pubon01.publish(0)
-  	pubon02.publish(0)
-  	pubon03.publish(1)
   	print "Publishing to 3"
   elif (Flag4):
   	pubjoy01.publish(ps)
   	pubjoy02.publish(ps)
   	pubjoy03.publish(ps)
-  	pubon01.publish(1)
-  	pubon02.publish(1)
-  	pubon03.publish(1)
   	print "Publishing to 4"
 
   print Flag1,Flag2,Flag3,Flag4
@@ -118,9 +105,6 @@ if __name__ == '__main__':
 	pubjoy01 = rospy.Publisher("/joy01", Joy, queue_size=10)
 	pubjoy02 = rospy.Publisher("/joy02", Joy, queue_size=10)
 	pubjoy03 = rospy.Publisher("/joy03", Joy, queue_size=10)
-	pubon01 = rospy.Publisher("/cbon01", Int8, queue_size=10)
-	pubon02 = rospy.Publisher("/cbon02", Int8, queue_size=10)
-	pubon03 = rospy.Publisher("/cbon03", Int8, queue_size=10)
 	#pubjoy04 = rospy.Publisher("/joy04", Joy, queue_size=10)
 	try:
 		print msg
