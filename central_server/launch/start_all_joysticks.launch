@@ -1,0 +1,22 @@
+<!-- 
+ -->
+
+<launch>
+  <node respawn="true" pkg="joy" type="joy_node" name="ps4_joy0">
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <remap from="joy" to="joystick0" />
+  </node>
+  <node respawn="true" pkg="joy" type="joy_node" name="ps4_joy1">
+    <param name="dev" type="string" value="/dev/input/js1" />
+    <remap from="joy" to="joystick1" />
+  </node>
+  <node respawn="true" pkg="joy" type="joy_node" name="ps4_joy2">
+    <param name="dev" type="string" value="/dev/input/js2" />
+    <remap from="joy" to="joystick2" />
+  </node>
+  <node respawn="true" pkg="joy" type="joy_node" name="ps4_joy3">
+    <param name="dev" type="string" value="/dev/input/js3" />
+    <remap from="joy" to="joystick3" />
+  </node>
+  <node pkg="central_server" type="control_by_all_joysticks.py" name="joystick_all" output="screen"/>
+</launch>

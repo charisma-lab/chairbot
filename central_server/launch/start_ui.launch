@@ -1,0 +1,7 @@
+<!-- 
+ -->
+
+<launch>
+<node pkg="rosbridge_server" type="rosbridge_websocket.py" name="rosbridge_websocket" output="screen">
+</node>
+</launch>
