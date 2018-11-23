@@ -1,0 +1,11 @@
+<launch>
+	<param name="use_sim_time" value="false"/>
+
+ 
+  <node name="neato04" pkg="neato_node" type="default.py" output="screen">
+  </node>
+
+  <node name="touch04" pkg="neato_node" type="arduino04.py">
+  </node>
+
+</launch>
