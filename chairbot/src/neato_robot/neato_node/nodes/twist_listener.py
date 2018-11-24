@@ -2,6 +2,7 @@
 import roslib; roslib.load_manifest("neato_node")
 import rospy
 from math import sin,cos
+from what_is_my_name import chairbot_number
 
 from geometry_msgs.msg import Twist
 import time
@@ -13,7 +14,12 @@ from neato_driver.neato_driver import Botvac
 class NeatoNode:
 
     def __init__(self):
-    	rospy.init_node('teleop04')
+	self.chairbot_number = chairbot_number()
+        self.teleop_node_name = 'teleop' + self.chairbot_number
+	self.twist_topic_name = 'twist' + self.chairbot_number
+	self.cbon_topic_name = 'cbon' + self.chairbot_number
+
+    	rospy.init_node(self.teleop_node_name)
 
     	self.port = rospy.get_param('~port1 ', "/dev/ttyACM1")
     	rospy.loginfo("Using port: %s"%(self.port))
@@ -21,10 +27,9 @@ class NeatoNode:
     	self.robot = Botvac(self.port)
 	
 	rospy.loginfo("Object init")
-    	rospy.Subscriber("twist04", Twist, self.twist_handler, queue_size=10)
-    	rospy.Subscriber("cbon04", Int8, self.cbon04, queue_size=10)
+    	rospy.Subscriber(self.twist_topic_name, Twist, self.twist_handler, queue_size=10)
+    	rospy.Subscriber(self.cbon_topic_name, Int8, self.cbon04, queue_size=10)
 
-        rospy.on_shutdown(self.stopFromSleeping)
 	self.latest_twist = Twist()
 	
         self.SPEED = 150
@@ -72,7 +77,7 @@ class NeatoNode:
             if(self.status):
                 self.robot.setMotors(dist_l, dist_r, SPEED)
             else:
-                print("Chair #4 is OFF")
+                print("Chair #" + self.chairbot_number + "is OFF")
             
             r.sleep()
             # wait, then do it again
@@ -90,15 +95,8 @@ class NeatoNode:
             self.status = True
         elif on.data == 0:
             self.status = False
-        print("Your are driving chair #4")
+        print("You are driving chair " + self.chairbot_number)
 
-    def stopFromSleeping(self):
-	'''
-	This will just act like a keepalive packet mechanism.
-	'''
-	self.robot.setMotors(1,1,0) #do nothing actually
-	print("Trying to move 1,1 at the speed of 0! keepalive!")
-	
 
 if __name__ == "__main__":
     robot = NeatoNode()
